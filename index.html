@@ -3,524 +3,692 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#0A0A0A">
+<meta name="theme-color" content="#e8e8ec">
 <meta name="description" content="Dressed by 8 — The capsule wardrobe app for AuDHD expat mums in Sweden. No decisions. Just your outfit.">
 <meta property="og:title" content="Dressed by 8">
 <meta property="og:description" content="Pick your occasion + weather. Get your outfit. Out the door by 8.">
 <meta property="og:image" content="/outfits/outfit_01.jpg">
 <title>Dressed by 8</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-:root{
-  --black:#0A0A0A;
-  --white:#FAFAF8;
-  --cream:#F2EDE4;
-  --red:#C41E3A;
-  --dim:#3A3A3A;
-  --mid:#6B6B6B;
-}
-html{height:100%;}
-body{
-  background:var(--black);
-  color:var(--white);
-  font-family:'Inter',sans-serif;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+/* ── SOFT UI DESIGN TOKENS ── */
+:root {
+  --bg: #e8e8ec;
+  --surface: #efefef;
+  --raised: 6px 6px 14px #c8c8cc, -6px -6px 14px #ffffff;
+  --raised-sm: 3px 3px 8px #c8c8cc, -3px -3px 8px #ffffff;
+  --pressed: inset 4px 4px 10px #c8c8cc, inset -4px -4px 10px #ffffff;
+  --text: #2a2a2e;
+  --text-mid: #6b6b78;
+  --text-light: #9999a8;
+  --accent: #b8476a;        /* dusty rose — warm, not harsh */
+  --accent-light: #f0d8e0;
+  --accent-dark: #8c2d4a;
+  --white: #ffffff;
+  --divider: rgba(0,0,0,0.07);
+  --radius-card: 20px;
+  --radius-btn: 50px;
+  --radius-sm: 12px;
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
 }
 
-/* MASTHEAD */
-header{
-  padding:0;
-  border-bottom:1px solid var(--dim);
-  flex-shrink:0;
-}
-.masthead-inner{
-  max-width:480px;
-  margin:0 auto;
-  padding:1.5rem 1.25rem 1rem;
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-}
-.masthead-title{
-  font-family:'Playfair Display',serif;
-  font-size:2.8rem;
-  font-weight:900;
-  color:var(--white);
-  letter-spacing:-0.02em;
-  line-height:0.9;
-}
-.masthead-title span{color:var(--red);}
-.masthead-tag{
-  font-size:0.58rem;
-  font-weight:400;
-  color:var(--mid);
-  letter-spacing:0.15em;
-  text-transform:uppercase;
-  text-align:right;
-  line-height:1.7;
+html { height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* MAIN */
-main{flex:1;max-width:480px;margin:0 auto;width:100%;}
-
-/* SCREEN SYSTEM */
-.screen{display:none;}
-.screen.active{display:block;}
-
-/* PICKER SCREEN */
-.picker-inner{padding:2rem 1.25rem 2.5rem;}
-.step-eye{
-  font-size:0.55rem;
-  letter-spacing:0.22em;
-  text-transform:uppercase;
-  color:var(--red);
-  margin-bottom:0.6rem;
-  display:block;
-  font-weight:500;
-}
-.question{
-  font-family:'Playfair Display',serif;
-  font-size:2rem;
-  font-weight:700;
-  color:var(--white);
-  line-height:1.15;
-  margin-bottom:1.75rem;
-}
-.btn-group{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1px;
-  margin-bottom:2.5rem;
-  border:1px solid var(--dim);
-}
-.choice-btn{
-  background:var(--black);
-  color:var(--mid);
-  border:none;
-  padding:1.1rem 0.9rem 0.9rem;
-  font-family:'Inter',sans-serif;
-  font-size:0.72rem;
-  font-weight:400;
-  letter-spacing:0.06em;
-  cursor:pointer;
-  transition:color 0.15s, background 0.15s;
-  text-align:left;
-  line-height:1.3;
-  border-right:1px solid var(--dim);
-  border-bottom:1px solid var(--dim);
-  position:relative;
-}
-.choice-btn:nth-child(even){border-right:none;}
-.choice-btn:nth-last-child(-n+2){border-bottom:none;}
-.choice-btn .btn-label{
-  display:block;
-  font-size:0.82rem;
-  font-weight:500;
-  color:var(--white);
-  margin-bottom:0.2rem;
-  transition:color 0.15s;
-}
-.choice-btn .btn-sub{
-  font-size:0.58rem;
-  color:var(--mid);
-  display:block;
-  letter-spacing:0.04em;
-}
-.choice-btn:hover .btn-label{color:var(--red);}
-.choice-btn.selected{background:#1A0508;}
-.choice-btn.selected .btn-label{color:var(--red);}
-.choice-btn.selected::after{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:2px;
-  background:var(--red);
+/* ── HEADER ── */
+header {
+  background: var(--bg);
+  padding: 1.5rem 1.25rem 1rem;
+  flex-shrink: 0;
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-.get-btn{
-  width:100%;
-  background:var(--red);
-  color:var(--white);
-  border:none;
-  padding:1.1rem;
-  font-family:'Playfair Display',serif;
-  font-size:1.2rem;
-  font-weight:700;
-  font-style:italic;
-  letter-spacing:0.03em;
-  cursor:pointer;
-  transition:opacity 0.15s;
-  display:none;
-}
-.get-btn:hover{opacity:0.88;}
-.get-btn.visible{display:block;}
-
-/* OUTFIT SCREEN */
-.outfit-img-wrap{
-  position:relative;
-  width:100%;
-  background:var(--cream);
-  overflow:hidden;
-}
-.outfit-img{
-  width:100%;
-  display:block;
-  aspect-ratio:3/4;
-  object-fit:cover;
-  object-position:center top;
-}
-.outfit-num-overlay{
-  position:absolute;
-  bottom:-0.05em;
-  right:0.1em;
-  font-family:'Playfair Display',serif;
-  font-size:18vw;
-  font-weight:900;
-  line-height:1;
-  color:transparent;
-  -webkit-text-stroke:1px rgba(10,10,10,0.18);
-  pointer-events:none;
-  letter-spacing:-0.04em;
-  user-select:none;
-}
-@media(min-width:480px){
-  .outfit-num-overlay{font-size:88px;}
+.masthead-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
 }
 
-.outfit-meta{
-  padding:1.25rem 1.25rem 0;
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:1rem;
-}
-.outfit-ctx{
-  font-size:0.58rem;
-  letter-spacing:0.18em;
-  text-transform:uppercase;
-  color:var(--red);
-  font-weight:500;
-  padding-top:0.2rem;
-}
-.outfit-name{
-  font-family:'Playfair Display',serif;
-  font-size:2rem;
-  font-weight:700;
-  color:var(--white);
-  line-height:1.1;
-  padding:0.4rem 1.25rem 1.1rem;
-  border-bottom:1px solid var(--dim);
+.masthead-title {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: 0.03em;
+  line-height: 0.9;
 }
 
-.pieces-block{
-  padding:1.1rem 1.25rem 0.5rem;
-}
-.pieces-label{
-  font-size:0.52rem;
-  letter-spacing:0.2em;
-  text-transform:uppercase;
-  color:var(--mid);
-  margin-bottom:0.75rem;
-  font-weight:500;
-}
-.pieces{list-style:none;}
-.pieces li{
-  font-size:0.78rem;
-  font-weight:300;
-  color:var(--white);
-  line-height:1;
-  padding:0.6rem 0;
-  border-bottom:1px solid var(--dim);
-  letter-spacing:0.02em;
-  display:flex;
-  align-items:center;
-  gap:0.6rem;
-}
-.pieces li::before{
-  content:'';
-  display:block;
-  width:4px;height:4px;
-  border-radius:50%;
-  background:var(--red);
-  flex-shrink:0;
+.masthead-title span { color: var(--accent); }
+
+.masthead-tag {
+  font-size: 0.58rem;
+  font-weight: 400;
+  color: var(--text-mid);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-align: right;
+  line-height: 1.7;
 }
 
-.pop-block{
-  margin:1rem 1.25rem;
-  border-left:2px solid var(--red);
-  padding:0.6rem 0.9rem;
-}
-.pop-label{
-  font-size:0.5rem;
-  letter-spacing:0.2em;
-  text-transform:uppercase;
-  color:var(--mid);
-  margin-bottom:0.3rem;
-  font-weight:500;
-}
-.pop-text{
-  font-family:'Playfair Display',serif;
-  font-size:0.92rem;
-  font-style:italic;
-  color:var(--white);
-  line-height:1.4;
+/* ── MAIN ── */
+main { flex: 1; max-width: 480px; margin: 0 auto; width: 100%; }
+
+/* ── SCREENS ── */
+.screen { display: none; }
+.screen.active { display: block; animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.action-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1px;
-  margin:1.25rem 1.25rem 0;
-  border:1px solid var(--dim);
-}
-.action-btn{
-  background:var(--black);
-  border:none;
-  color:var(--mid);
-  padding:0.9rem;
-  font-family:'Inter',sans-serif;
-  font-size:0.65rem;
-  font-weight:500;
-  letter-spacing:0.1em;
-  text-transform:uppercase;
-  cursor:pointer;
-  transition:color 0.15s, background 0.15s;
-  border-right:1px solid var(--dim);
-}
-.action-btn:last-child{border-right:none;}
-.action-btn:hover{color:var(--white);}
-.action-btn.primary{color:var(--white);}
-.action-btn.primary:hover{color:var(--red);}
+/* ── PICKER ── */
+.picker-inner { padding: 1.5rem 1.25rem 2.5rem; }
 
-.see-all-btn{
-  display:block;
-  width:calc(100% - 2.5rem);
-  margin:0.75rem 1.25rem 2rem;
-  background:transparent;
-  border:1px solid var(--dim);
-  color:var(--mid);
-  padding:0.9rem;
-  font-family:'Inter',sans-serif;
-  font-size:0.65rem;
-  font-weight:500;
-  letter-spacing:0.1em;
-  text-transform:uppercase;
-  cursor:pointer;
-  transition:color 0.15s, border-color 0.15s;
-  text-align:center;
-}
-.see-all-btn:hover{color:var(--white);border-color:var(--white);}
-
-/* GUIDE SCREEN */
-.guide-inner{padding:0 0 2rem;}
-.tabs{
-  display:flex;
-  border-bottom:1px solid var(--dim);
-  padding:0 1.25rem;
-  gap:0;
-}
-.tab{
-  flex:1;
-  background:none;
-  border:none;
-  border-bottom:2px solid transparent;
-  margin-bottom:-1px;
-  padding:1rem 0.25rem 0.85rem;
-  font-family:'Inter',sans-serif;
-  font-size:0.6rem;
-  letter-spacing:0.12em;
-  text-transform:uppercase;
-  color:var(--mid);
-  cursor:pointer;
-  font-weight:500;
-  transition:color 0.15s;
-}
-.tab.active{color:var(--white);border-bottom-color:var(--red);}
-
-.guide-section-title{
-  font-family:'Playfair Display',serif;
-  font-size:1.6rem;
-  font-weight:700;
-  color:var(--white);
-  padding:1.5rem 1.25rem 1rem;
-  border-bottom:1px solid var(--dim);
-  margin-bottom:0;
+.step-eye {
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  display: block;
+  font-weight: 600;
 }
 
-/* MINI GRID */
-.mini-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1px;
-  background:var(--dim);
-  margin:0 0 0.75rem;
-}
-.mini-card{
-  cursor:pointer;
-  background:var(--black);
-  overflow:hidden;
-}
-.mini-card img{
-  width:100%;
-  display:block;
-  aspect-ratio:3/4;
-  object-fit:cover;
-  object-position:center top;
-  transition:opacity 0.2s;
-  background:var(--cream);
-}
-.mini-card:hover img{opacity:0.8;}
-.mini-label{
-  padding:0.55rem 0.65rem 0.6rem;
-  border-top:1px solid var(--dim);
-}
-.mini-num{
-  font-size:0.5rem;
-  letter-spacing:0.15em;
-  color:var(--red);
-  font-weight:500;
-  text-transform:uppercase;
-  display:block;
-  margin-bottom:0.15rem;
-}
-.mini-name{
-  font-family:'Playfair Display',serif;
-  font-size:0.85rem;
-  font-weight:700;
-  color:var(--white);
-  line-height:1.2;
+.question {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
 }
 
-/* SEASON GRID */
-.season-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1px;
-  background:var(--dim);
-  margin:0 0 1.25rem;
+/* Step 2 slide in */
+.step2-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
 }
-.s-card{
-  background:var(--black);
-  padding:1rem 1rem 0.9rem;
-}
-.s-name{
-  font-family:'Playfair Display',serif;
-  font-size:1.1rem;
-  font-weight:700;
-  font-style:italic;
-  color:var(--white);
-  display:block;
-  margin-bottom:0.1rem;
-}
-.s-temp{
-  font-size:0.52rem;
-  color:var(--mid);
-  letter-spacing:0.1em;
-  display:block;
-  margin-bottom:0.6rem;
-  text-transform:uppercase;
-}
-.s-list{
-  font-size:0.65rem;
-  color:#888;
-  line-height:2;
-  font-weight:300;
+.step2-wrapper.visible {
+  max-height: 500px;
+  opacity: 1;
 }
 
-/* RULES */
-.rules-list{padding:0 1.25rem 1.25rem;}
-.rule-item{
-  display:flex;
-  gap:1rem;
-  padding:1.1rem 0;
-  border-bottom:1px solid var(--dim);
-  align-items:flex-start;
-}
-.rule-n{
-  font-family:'Playfair Display',serif;
-  font-size:2rem;
-  font-weight:900;
-  color:transparent;
-  -webkit-text-stroke:1px var(--dim);
-  line-height:1;
-  flex-shrink:0;
-  width:36px;
-  padding-top:0.05em;
-}
-.rule-t{
-  font-size:0.72rem;
-  color:#AAA;
-  line-height:1.75;
-  font-weight:300;
-  padding-top:0.4rem;
+/* Soft UI button grid */
+.btn-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 1.5rem;
 }
 
-.back-btn{
-  display:block;
-  width:calc(100% - 2.5rem);
-  margin:0 1.25rem;
-  background:var(--red);
-  border:none;
-  color:var(--white);
-  padding:1rem;
-  font-family:'Playfair Display',serif;
-  font-size:1.1rem;
-  font-style:italic;
-  font-weight:700;
-  letter-spacing:0.03em;
-  cursor:pointer;
-  text-align:center;
-  transition:opacity 0.15s;
+.choice-btn {
+  background: var(--bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 0.9rem 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: box-shadow 0.18s ease, background 0.18s ease;
+  text-align: left;
+  line-height: 1.3;
+  box-shadow: var(--raised);
+  position: relative;
+  overflow: hidden;
 }
-.back-btn:hover{opacity:0.88;}
 
-/* FOOTER */
-footer{
-  border-top:1px solid var(--dim);
-  padding:1.25rem;
-  max-width:480px;
-  margin:0 auto;
-  width:100%;
+.choice-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-sm);
+  background: var(--accent-light);
+  opacity: 0;
+  transition: opacity 0.18s ease;
 }
-footer p{
-  font-size:0.58rem;
-  color:var(--mid);
-  letter-spacing:0.08em;
-  line-height:2;
-  text-align:center;
-}
-footer a{color:var(--white);text-decoration:none;font-weight:500;}
-footer a:hover{color:var(--red);}
 
-/* TOAST */
-.toast{
-  position:fixed;
-  bottom:80px;
-  left:50%;
-  transform:translateX(-50%) translateY(10px);
-  background:var(--white);
-  color:var(--black);
-  padding:0.6rem 1.25rem;
-  font-size:0.65rem;
-  letter-spacing:0.1em;
-  font-weight:500;
-  text-transform:uppercase;
-  opacity:0;
-  transition:opacity 0.25s, transform 0.25s;
-  pointer-events:none;
-  white-space:nowrap;
-  z-index:999;
-}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.choice-btn:hover { box-shadow: var(--raised-sm); }
+.choice-btn:hover::before { opacity: 0.4; }
 
-@media(min-width:600px){
-  .masthead-title{font-size:3.5rem;}
-  .mini-grid{grid-template-columns:repeat(3,1fr);}
-  .season-grid{grid-template-columns:repeat(4,1fr);}
+.choice-btn.selected {
+  box-shadow: var(--pressed);
+  background: var(--bg);
+}
+.choice-btn.selected::before { opacity: 1; }
+.choice-btn.selected .btn-label { color: var(--accent-dark); }
+
+.btn-label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+  transition: color 0.18s;
+  position: relative;
+}
+
+.btn-sub {
+  font-size: 0.6rem;
+  color: var(--text-light);
+  display: block;
+  letter-spacing: 0.04em;
+  position: relative;
+}
+
+/* CTA button */
+.get-btn {
+  width: 100%;
+  background: var(--accent);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-btn);
+  padding: 1.1rem 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: opacity 0.18s, box-shadow 0.18s, transform 0.12s;
+  display: none;
+  box-shadow: 4px 4px 12px rgba(184,71,106,0.35), -2px -2px 6px rgba(255,255,255,0.6);
+  margin-top: 0.5rem;
+}
+
+.get-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+.get-btn:active { transform: translateY(0); opacity: 1; }
+.get-btn.visible { display: block; }
+
+/* ── OUTFIT SCREEN ── */
+.outfit-img-wrap {
+  position: relative;
+  width: calc(100% - 2.5rem);
+  margin: 1.25rem 1.25rem 0;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--raised);
+  background: #d8d4cc;
+}
+
+.outfit-img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* Fallback when no image */
+.outfit-img-fallback {
+  display: none;
+  aspect-ratio: 3/4;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #e8e0d8 0%, #d8d0cc 100%);
+}
+
+.outfit-img-fallback.show { display: flex; }
+.outfit-img.hidden { display: none; }
+
+.fallback-num {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 900;
+  color: rgba(42,42,46,0.12);
+  line-height: 1;
+}
+.fallback-hint {
+  font-size: 0.65rem;
+  color: var(--text-light);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.outfit-num-overlay {
+  position: absolute;
+  bottom: -0.05em;
+  right: 0.1em;
+  font-family: var(--font-display);
+  font-size: 18vw;
+  font-weight: 900;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.25);
+  pointer-events: none;
+  letter-spacing: -0.04em;
+  user-select: none;
+}
+
+@media(min-width:480px) { .outfit-num-overlay { font-size: 88px; } }
+
+/* Outfit card content */
+.outfit-card {
+  margin: 1rem 1.25rem;
+  background: var(--bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--raised);
+  overflow: hidden;
+}
+
+.outfit-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem 0.6rem;
+  border-bottom: 1px solid var(--divider);
+}
+
+.outfit-ctx {
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.outfit-name {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+  padding: 0.75rem 1.25rem 0.9rem;
+  border-bottom: 1px solid var(--divider);
+}
+
+.pieces-block { padding: 0.9rem 1.25rem 0.5rem; }
+
+.pieces-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+}
+
+.pieces { list-style: none; }
+
+.pieces li {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--divider);
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.pieces li:last-child { border-bottom: none; }
+
+.pieces li::before {
+  content: '';
+  display: block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.pop-block {
+  margin: 0 1.25rem 1rem;
+  background: var(--accent-light);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--accent);
+}
+
+.pop-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.pop-text {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--accent-dark);
+  line-height: 1.4;
+}
+
+/* Action buttons */
+.action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 0 1.25rem 0.75rem;
+}
+
+.action-btn {
+  background: var(--bg);
+  border: none;
+  border-radius: var(--radius-btn);
+  color: var(--text-mid);
+  padding: 0.85rem;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: box-shadow 0.18s ease, color 0.18s;
+  box-shadow: var(--raised-sm);
+}
+
+.action-btn:hover { color: var(--text); box-shadow: var(--pressed); }
+.action-btn.primary { color: var(--accent); }
+.action-btn.primary:hover { color: var(--accent-dark); }
+
+.see-all-btn {
+  display: block;
+  width: calc(100% - 2.5rem);
+  margin: 0 1.25rem 2rem;
+  background: var(--bg);
+  border: none;
+  border-radius: var(--radius-btn);
+  color: var(--text-mid);
+  padding: 0.85rem;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: box-shadow 0.18s ease, color 0.18s;
+  box-shadow: var(--raised-sm);
+  text-align: center;
+}
+
+.see-all-btn:hover { color: var(--text); box-shadow: var(--pressed); }
+
+/* ── GUIDE SCREEN ── */
+.guide-inner { padding: 0 0 2rem; }
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.tab {
+  flex: 1;
+  background: var(--bg);
+  border: none;
+  border-radius: var(--radius-btn);
+  padding: 0.65rem 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  box-shadow: var(--raised-sm);
+}
+
+.tab.active {
+  background: var(--accent);
+  color: var(--white);
+  box-shadow: 3px 3px 8px rgba(184,71,106,0.35), -1px -1px 4px rgba(255,255,255,0.5);
+}
+
+.guide-section-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+  padding: 1.25rem 1.25rem 0.75rem;
+}
+
+/* Mini grid */
+.mini-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 0 1.25rem 1.25rem;
+}
+
+.mini-card {
+  cursor: pointer;
+  background: var(--bg);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--raised-sm);
+  transition: box-shadow 0.18s ease, transform 0.18s;
+}
+
+.mini-card:hover { box-shadow: var(--pressed); transform: scale(0.98); }
+
+.mini-card img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  object-position: center top;
+  background: #d8d4cc;
+}
+
+/* fallback mini card */
+.mini-card-fallback {
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e8e0d8 0%, #d8d0cc 100%);
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 900;
+  color: rgba(42,42,46,0.15);
+}
+
+.mini-label { padding: 0.5rem 0.65rem 0.6rem; }
+
+.mini-num {
+  font-size: 0.48rem;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.1rem;
+}
+
+.mini-name {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+/* Season grid */
+.season-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 0 1.25rem 1.25rem;
+}
+
+.s-card {
+  background: var(--bg);
+  border-radius: var(--radius-card);
+  padding: 1rem;
+  box-shadow: var(--raised-sm);
+}
+
+.s-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--text);
+  display: block;
+  margin-bottom: 0.1rem;
+}
+
+.s-temp {
+  font-size: 0.5rem;
+  color: var(--text-light);
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.s-list {
+  font-size: 0.65rem;
+  color: var(--text-mid);
+  line-height: 2;
+  font-weight: 300;
+}
+
+/* Rules */
+.rules-list { padding: 0 1.25rem 1.25rem; display: flex; flex-direction: column; gap: 12px; }
+
+.rule-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--raised-sm);
+  align-items: flex-start;
+}
+
+.rule-n {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--accent-light);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 36px;
+  padding-top: 0.05em;
+  -webkit-text-stroke: 1.5px var(--accent);
+}
+
+.rule-t {
+  font-size: 0.72rem;
+  color: var(--text-mid);
+  line-height: 1.75;
+  font-weight: 400;
+  padding-top: 0.4rem;
+}
+
+.back-btn {
+  display: block;
+  width: calc(100% - 2.5rem);
+  margin: 0.5rem 1.25rem 0;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-btn);
+  color: var(--white);
+  padding: 1rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  text-align: center;
+  transition: opacity 0.15s, transform 0.12s;
+  box-shadow: 4px 4px 12px rgba(184,71,106,0.35), -2px -2px 6px rgba(255,255,255,0.6);
+}
+
+.back-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--divider);
+  padding: 1.25rem;
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+footer p {
+  font-size: 0.58rem;
+  color: var(--text-light);
+  letter-spacing: 0.08em;
+  line-height: 2;
+  text-align: center;
+}
+
+footer a { color: var(--text-mid); text-decoration: none; font-weight: 500; }
+footer a:hover { color: var(--accent); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--text);
+  color: var(--white);
+  padding: 0.65rem 1.4rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: var(--radius-btn);
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 999;
+  box-shadow: 4px 4px 16px rgba(0,0,0,0.15);
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── SHIMMER LOADING ── */
+.shimmer {
+  background: linear-gradient(90deg, #ddd 25%, #ebebeb 50%, #ddd 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+@media(min-width:480px) {
+  .masthead-title { font-size: 3.2rem; }
+  .mini-grid { grid-template-columns: repeat(3,1fr); }
+  .season-grid { grid-template-columns: repeat(4,1fr); }
+}
+
+@media(prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 </style>
 </head>
@@ -538,8 +706,10 @@ footer a:hover{color:var(--red);}
   <!-- PICKER SCREEN -->
   <div id="screen-picker" class="screen active">
     <div class="picker-inner">
+
       <span class="step-eye">Step 1 of 2</span>
       <div class="question">Where are you going today?</div>
+
       <div class="btn-group" id="occasion-btns">
         <button class="choice-btn" data-val="office" onclick="pick('occasion',this)">
           <span class="btn-label">Office</span>
@@ -559,59 +729,75 @@ footer a:hover{color:var(--red);}
         </button>
       </div>
 
-      <span class="step-eye" id="step2-label" style="display:none;">Step 2 of 2</span>
-      <div class="question" id="q2" style="display:none;">How cold is it outside?</div>
-      <div class="btn-group" id="weather-btns" style="display:none;">
-        <button class="choice-btn" data-val="cold" onclick="pick('weather',this)">
-          <span class="btn-label">Freezing</span>
-          <span class="btn-sub">Below 5°C</span>
-        </button>
-        <button class="choice-btn" data-val="mild" onclick="pick('weather',this)">
-          <span class="btn-label">Mild</span>
-          <span class="btn-sub">5–15°C</span>
-        </button>
-        <button class="choice-btn" data-val="warm" onclick="pick('weather',this)">
-          <span class="btn-label">Warm</span>
-          <span class="btn-sub">Above 15°C</span>
-        </button>
-        <button class="choice-btn" data-val="any" onclick="pick('weather',this)">
-          <span class="btn-label">No idea</span>
-          <span class="btn-sub">Surprise me</span>
-        </button>
+      <div class="step2-wrapper" id="step2-wrapper">
+        <span class="step-eye">Step 2 of 2</span>
+        <div class="question">How cold is it outside?</div>
+
+        <div class="btn-group" id="weather-btns">
+          <button class="choice-btn" data-val="cold" onclick="pick('weather',this)">
+            <span class="btn-label">Freezing</span>
+            <span class="btn-sub">Below 5°C</span>
+          </button>
+          <button class="choice-btn" data-val="mild" onclick="pick('weather',this)">
+            <span class="btn-label">Mild</span>
+            <span class="btn-sub">5–15°C</span>
+          </button>
+          <button class="choice-btn" data-val="warm" onclick="pick('weather',this)">
+            <span class="btn-label">Warm</span>
+            <span class="btn-sub">Above 15°C</span>
+          </button>
+          <button class="choice-btn" data-val="any" onclick="pick('weather',this)">
+            <span class="btn-label">No idea</span>
+            <span class="btn-sub">Surprise me</span>
+          </button>
+        </div>
+
+        <button class="get-btn" id="get-btn" onclick="showOutfit()">Get my outfit →</button>
       </div>
 
-      <button class="get-btn" id="get-btn" onclick="showOutfit()">Get my outfit →</button>
     </div>
   </div>
 
   <!-- OUTFIT SCREEN -->
   <div id="screen-outfit" class="screen">
+
     <div class="outfit-img-wrap">
       <img class="outfit-img" id="outfit-img" src="" alt="Today's outfit" />
+      <div class="outfit-img-fallback" id="outfit-img-fallback">
+        <div class="fallback-num" id="fallback-num"></div>
+        <div class="fallback-hint">Add outfit photos to /outfits/</div>
+      </div>
       <div class="outfit-num-overlay" id="outfit-num-overlay"></div>
     </div>
-    <div class="outfit-meta">
-      <div class="outfit-ctx" id="outfit-ctx"></div>
+
+    <div class="outfit-card">
+      <div class="outfit-meta-row">
+        <div class="outfit-ctx" id="outfit-ctx"></div>
+      </div>
+      <div class="outfit-name" id="outfit-name"></div>
+      <div class="pieces-block">
+        <div class="pieces-label">What to wear</div>
+        <ul class="pieces" id="outfit-pieces"></ul>
+      </div>
     </div>
-    <div class="outfit-name" id="outfit-name"></div>
-    <div class="pieces-block">
-      <div class="pieces-label">What to wear</div>
-      <ul class="pieces" id="outfit-pieces"></ul>
-    </div>
+
     <div class="pop-block" id="pop-block">
       <div class="pop-label">Your pop of colour</div>
       <div class="pop-text" id="outfit-pop"></div>
     </div>
+
     <div class="action-row">
       <button class="action-btn primary" onclick="shuffle()">Different outfit</button>
       <button class="action-btn" onclick="goBack()">Start over</button>
     </div>
     <button class="see-all-btn" onclick="showTab('all')">See all 12 outfits</button>
+
   </div>
 
   <!-- GUIDE SCREEN -->
   <div id="screen-guide" class="screen">
     <div class="guide-inner">
+
       <div class="tabs">
         <button class="tab active" id="tab-all" onclick="showTab('all')">All outfits</button>
         <button class="tab" id="tab-seasons" onclick="showTab('seasons')">Seasons</button>
@@ -646,6 +832,7 @@ footer a:hover{color:var(--red);}
       </div>
 
       <button class="back-btn" onclick="goHome()">Pick today's outfit →</button>
+
     </div>
   </div>
 
@@ -661,51 +848,141 @@ footer a:hover{color:var(--red);}
 <div class="toast" id="toast"></div>
 
 <script>
+/* ── OUTFIT DATA MAP ──────────────────────────────────────────────
+   4 occasions × 3 real temps = 12 exact combos
+   "any" weather = random from occasion pool
+   "presentation" covers all temps via outfit 11 + fallback to office
+──────────────────────────────────────────────────────────────────── */
 const outfits = [
-  {num:"01",name:"The Non-Decision",ctx:"Mon · Office",occasion:["office"],weather:["cold","mild"],pieces:["Black tailored trousers","Black fitted blazer","White tee underneath","Black ankle boots"],pop:"Gold hoops + red lip",popColor:"#C41E3A",img:"outfits/outfit_01.jpg"},
-  {num:"02",name:"The Soft Power",ctx:"Tue · Office",occasion:["office"],weather:["mild","warm"],pieces:["Cream silk blouse","Black tailored trousers","Black loafer or mule"],pop:"Rust scarf at neck + gold earrings",popColor:"#C41E3A",img:"outfits/outfit_02.jpg"},
-  {num:"03",name:"The Drape",ctx:"Wed · Office",occasion:["office"],weather:["mild","cold"],pieces:["Black midi wrap dress","Charcoal cardigan over it","Black ankle boots"],pop:"Teal ring + gold drops",popColor:"#C41E3A",img:"outfits/outfit_03.jpg"},
-  {num:"04",name:"The Knit Day",ctx:"Thu · Office",occasion:["office"],weather:["cold"],pieces:["Grey knit dress","Black wool overcoat","Black ankle boots"],pop:"Rust scarf + grey beanie outside",popColor:"#C41E3A",img:"outfits/outfit_04.jpg"},
-  {num:"05",name:"Weekend Starts Now",ctx:"Fri · Casual",occasion:["office","weekend"],weather:["mild","cold"],pieces:["Dark grey slim jeans","Black turtleneck","Black leather jacket","White sneakers"],pop:"Gold hoops only · 4 mins flat",popColor:"#C41E3A",img:"outfits/outfit_05.jpg"},
-  {num:"06",name:"The Mum Run",ctx:"Weekend · Casual",occasion:["weekend"],weather:["cold","mild"],pieces:["Black ponte leggings","Oversized black knit","White sneakers","Grey trench or puffer"],pop:"Rust scarf: warmth + colour in one",popColor:"#C41E3A",img:"outfits/outfit_06.jpg"},
-  {num:"07",name:"The Uniform",ctx:"Weekend · Errands",occasion:["weekend"],weather:["mild","warm"],pieces:["Grey jeans","Breton stripe tee","Charcoal longline cardigan","White sneakers"],pop:"Gold hoops only",popColor:"#C41E3A",img:"outfits/outfit_07.jpg"},
-  {num:"08",name:"The Alter Ego",ctx:"Evening · Out",occasion:["evening"],weather:["cold","mild","warm","any"],pieces:["Black slip dress","Black leather jacket","Black ankle boots"],pop:"Red lip + gold drops · that's all",popColor:"#C41E3A",img:"outfits/outfit_08.jpg"},
-  {num:"09",name:"The Airy Day",ctx:"Spring · Summer",occasion:["weekend","office"],weather:["warm","mild"],pieces:["Cream wide-leg trousers","Grey long-sleeve top","White sneakers or mule","Grey trench (carry)"],pop:"Teal earrings + rust scarf as belt",popColor:"#C41E3A",img:"outfits/outfit_09.jpg"},
-  {num:"10",name:"The Stockholm Layer",ctx:"Cold snap · Any",occasion:["office","weekend"],weather:["cold"],pieces:["Black turtleneck","Black midi skirt + tights","Long black overcoat","Black ankle boots"],pop:"Grey beanie + gold earrings inside",popColor:"#C41E3A",img:"outfits/outfit_10.jpg"},
-  {num:"11",name:"The Authority",ctx:"Presentation day",occasion:["presentation","office"],weather:["cold","mild","warm","any"],pieces:["Black blazer","Cream blouse","Black tailored trousers","Black loafer"],pop:"Red lip. Nothing else needed.",popColor:"#C41E3A",img:"outfits/outfit_11.jpg"},
-  {num:"12",name:"The Still Me",ctx:"Förskola · Casual",occasion:["weekend"],weather:["mild","warm"],pieces:["Grey jeans","Black oversized knit","Charcoal cardigan","White sneakers"],pop:"Gold hoops + rust scarf + good energy",popColor:"#C41E3A",img:"outfits/outfit_12.jpg"},
+  {
+    num:"01", name:"The Non-Decision", ctx:"Office · Cold day",
+    occasion:["office"], weather:["cold"],
+    pieces:["Black tailored trousers","Black fitted blazer","White tee underneath","Black ankle boots"],
+    pop:"Gold hoops + red lip. Done in 4 minutes.",
+    img:"outfits/outfit_01.jpg"
+  },
+  {
+    num:"02", name:"The Soft Power", ctx:"Office · Mild day",
+    occasion:["office"], weather:["mild"],
+    pieces:["Cream silk blouse","Black tailored trousers","Black loafer"],
+    pop:"Rust scarf at neck + small gold earrings",
+    img:"outfits/outfit_02.jpg"
+  },
+  {
+    num:"03", name:"The Drape", ctx:"Office · Warm day",
+    occasion:["office"], weather:["warm"],
+    pieces:["Black midi wrap dress","Charcoal cardigan","Black mule"],
+    pop:"Teal ring + gold drops",
+    img:"outfits/outfit_03.jpg"
+  },
+  {
+    num:"04", name:"The Knit Day", ctx:"Weekend · Cold day",
+    occasion:["weekend"], weather:["cold"],
+    pieces:["Grey knit dress","Black wool overcoat","Black ankle boots","Wool tights"],
+    pop:"Rust scarf + grey beanie outside",
+    img:"outfits/outfit_04.jpg"
+  },
+  {
+    num:"05", name:"Weekend Starts Now", ctx:"Weekend · Mild day",
+    occasion:["weekend"], weather:["mild"],
+    pieces:["Dark grey slim jeans","Black turtleneck","Black leather jacket","White sneakers"],
+    pop:"Gold hoops only · 4 mins flat",
+    img:"outfits/outfit_05.jpg"
+  },
+  {
+    num:"06", name:"The Airy Weekend", ctx:"Weekend · Warm day",
+    occasion:["weekend"], weather:["warm"],
+    pieces:["Grey jeans","Breton stripe tee","Charcoal longline cardigan","White sneakers"],
+    pop:"Gold hoops + rust scarf as belt",
+    img:"outfits/outfit_06.jpg"
+  },
+  {
+    num:"07", name:"The Mum Run", ctx:"Errands · Cold day",
+    occasion:["weekend","office"], weather:["cold"],
+    pieces:["Black ponte leggings","Oversized black knit","White sneakers","Grey puffer"],
+    pop:"Rust scarf: warmth + colour in one",
+    img:"outfits/outfit_07.jpg"
+  },
+  {
+    num:"08", name:"The Alter Ego", ctx:"Evening · Any temp",
+    occasion:["evening"], weather:["cold","mild","warm","any"],
+    pieces:["Black slip dress","Black leather jacket","Black ankle boots"],
+    pop:"Red lip + gold drops · that's all",
+    img:"outfits/outfit_08.jpg"
+  },
+  {
+    num:"09", name:"The Airy Day", ctx:"Office · Spring/Summer",
+    occasion:["office","weekend"], weather:["warm","mild"],
+    pieces:["Cream wide-leg trousers","Grey long-sleeve top","White sneakers or mule","Grey trench (carry)"],
+    pop:"Teal earrings + rust scarf as belt",
+    img:"outfits/outfit_09.jpg"
+  },
+  {
+    num:"10", name:"The Stockholm Layer", ctx:"Any · Cold snap",
+    occasion:["office","weekend","presentation"], weather:["cold"],
+    pieces:["Black turtleneck","Black midi skirt + tights","Long black overcoat","Black ankle boots"],
+    pop:"Grey beanie + gold earrings inside",
+    img:"outfits/outfit_10.jpg"
+  },
+  {
+    num:"11", name:"The Authority", ctx:"Presentation day",
+    occasion:["presentation","office"], weather:["cold","mild","warm","any"],
+    pieces:["Black blazer","Cream blouse","Black tailored trousers","Black loafer"],
+    pop:"Red lip. Nothing else needed.",
+    img:"outfits/outfit_11.jpg"
+  },
+  {
+    num:"12", name:"The Still Me", ctx:"Förskola · Casual",
+    occasion:["weekend"], weather:["mild","warm"],
+    pieces:["Grey jeans","Black oversized knit","Charcoal cardigan","White sneakers"],
+    pop:"Gold hoops + rust scarf + good energy",
+    img:"outfits/outfit_12.jpg"
+  },
 ];
 
-let state = {occasion:null, weather:null, currentOutfit:null, candidates:[]};
+let state = { occasion: null, weather: null, currentOutfit: null, candidates: [] };
 
+/* ── PICK HANDLER ── */
 function pick(type, btn) {
-  const group = document.getElementById(type === 'occasion' ? 'occasion-btns' : 'weather-btns');
-  group.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+  const groupId = type === 'occasion' ? 'occasion-btns' : 'weather-btns';
+  document.getElementById(groupId).querySelectorAll('.choice-btn')
+    .forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   state[type] = btn.dataset.val;
 
   if (type === 'occasion') {
-    document.getElementById('step2-label').style.display = 'block';
-    document.getElementById('q2').style.display = 'block';
-    document.getElementById('weather-btns').style.display = 'grid';
-    document.getElementById('get-btn').classList.remove('visible');
+    // Animate step 2 in
+    const wrapper = document.getElementById('step2-wrapper');
+    wrapper.classList.add('visible');
+    // Reset weather selection
     state.weather = null;
-    document.getElementById('weather-btns').querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+    document.getElementById('weather-btns').querySelectorAll('.choice-btn')
+      .forEach(b => b.classList.remove('selected'));
+    document.getElementById('get-btn').classList.remove('visible');
   }
+
   if (type === 'weather') {
     document.getElementById('get-btn').classList.add('visible');
   }
 }
 
-function showOutfit() {
-  const occ = state.occasion;
-  const wth = state.weather;
+/* ── MATCH LOGIC ── */
+function getMatches(occ, wth) {
+  // Exact match first
   let matches = outfits.filter(o =>
     o.occasion.includes(occ) &&
     (wth === 'any' || o.weather.includes(wth) || o.weather.includes('any'))
   );
+  // Fallback: occasion only
   if (!matches.length) matches = outfits.filter(o => o.occasion.includes(occ));
+  // Final fallback: anything
   if (!matches.length) matches = [...outfits];
+  return matches;
+}
+
+/* ── SHOW OUTFIT ── */
+function showOutfit() {
+  const matches = getMatches(state.occasion, state.weather);
   state.candidates = matches;
   const chosen = matches[Math.floor(Math.random() * matches.length)];
   state.currentOutfit = chosen;
@@ -713,6 +990,7 @@ function showOutfit() {
   showScreen('outfit');
 }
 
+/* ── SHUFFLE ── */
 function shuffle() {
   let pool = state.candidates.filter(o => o !== state.currentOutfit);
   if (!pool.length) pool = state.candidates;
@@ -722,28 +1000,60 @@ function shuffle() {
   toast('New outfit loaded');
 }
 
+/* ── RENDER OUTFIT ── */
 function renderOutfit(o) {
-  document.getElementById('outfit-img').src = o.img;
+  const img = document.getElementById('outfit-img');
+  const fallback = document.getElementById('outfit-img-fallback');
+  const fallbackNum = document.getElementById('fallback-num');
+
+  // Reset image state
+  img.classList.remove('hidden');
+  fallback.classList.remove('show');
+  img.removeEventListener('error', handleImgError);
+  img.addEventListener('error', handleImgError);
+  img.src = o.img;
+  fallbackNum.textContent = o.num;
+
   document.getElementById('outfit-num-overlay').textContent = o.num;
   document.getElementById('outfit-ctx').textContent = o.ctx;
   document.getElementById('outfit-name').textContent = o.name;
+
   const ul = document.getElementById('outfit-pieces');
   ul.innerHTML = o.pieces.map(p => `<li>${p}</li>`).join('');
+
   document.getElementById('outfit-pop').textContent = o.pop;
 }
 
+/* ── IMAGE ERROR FALLBACK ── */
+function handleImgError() {
+  document.getElementById('outfit-img').classList.add('hidden');
+  document.getElementById('outfit-img-fallback').classList.add('show');
+}
+
+document.getElementById('outfit-img').addEventListener('error', handleImgError);
+
+/* ── BUILD MINI GRID ── */
 function buildMiniGrid() {
   const grid = document.getElementById('mini-grid');
   grid.innerHTML = outfits.map(o => `
     <div class="mini-card" onclick="pickOutfit('${o.num}')">
       <img src="${o.img}" alt="${o.name}" loading="lazy" />
+      <div class="mini-card-fallback" style="display:none;">${o.num}</div>
       <div class="mini-label">
         <span class="mini-num">${o.num}</span>
         <span class="mini-name">${o.name}</span>
       </div>
     </div>`).join('');
+
+  grid.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => {
+      img.style.display = 'none';
+      img.nextElementSibling.style.display = 'flex';
+    });
+  });
 }
 
+/* ── PICK FROM GRID ── */
 function pickOutfit(num) {
   const o = outfits.find(x => x.num === num);
   state.currentOutfit = o;
@@ -752,10 +1062,11 @@ function pickOutfit(num) {
   showScreen('outfit');
 }
 
+/* ── SCREEN NAVIGATION ── */
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
-  window.scrollTo(0,0);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function showTab(name) {
@@ -764,12 +1075,13 @@ function showTab(name) {
     document.getElementById('panel-' + t).style.display = t === name ? 'block' : 'none';
     document.getElementById('tab-' + t).classList.toggle('active', t === name);
   });
-  buildMiniGrid();
+  if (name === 'all') buildMiniGrid();
 }
 
 function goBack() { showScreen('picker'); }
 function goHome() { showScreen('picker'); }
 
+/* ── TOAST ── */
 function toast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -777,6 +1089,7 @@ function toast(msg) {
   setTimeout(() => t.classList.remove('show'), 2200);
 }
 
+// Init
 buildMiniGrid();
 </script>
 </body>
